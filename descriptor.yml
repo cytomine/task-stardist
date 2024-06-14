@@ -74,12 +74,12 @@ outputs:
     dependencies:
       derived_from: inputs/image
       matching:
-        - outputs/probas
+        - outputs/probs
     type:
       id: array
       subtype: geometry
 
-  probas:
+  probs:
     display_name: Detected nuclei probabilities
     description: The probabilities associated with the predicted nuclei geometries
     type:
