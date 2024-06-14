@@ -8,7 +8,7 @@ external:
   dois:
     - https://doi.org/10.1007/978-3-030-00934-2_3
   source_code: https://github.com/stardist/stardist
-  
+
 authors:
   - first_name: Romain
     last_name: Mormont
@@ -35,7 +35,7 @@ inputs:
     description: Probability Threshold in range [0.0, 1.0] - higher values lead to fewer segmented objects, but will likely avoid false positives
     optional: true
     default: 0.5
-    type: 
+    type:
       id: number
       leq: 1
       geq: 0
@@ -70,20 +70,21 @@ inputs:
 outputs:
   nuclei:
     display_name: Nuclei geometries
-    description: The segmented nuclei encoded as geometries 
+    description: The segmented nuclei encoded as geometries
     dependencies:
       derived_from: inputs/image
-      matching: 
+      matching:
         - outputs/probas
-    type: 
+    type:
       id: array
       subtype: geometry
 
   probas:
-    display_name: The probabilities associated with the predicted nuclei geometries
+    display_name: Detected nuclei probabilities
+    description: The probabilities associated with the predicted nuclei geometries
     type:
       id: array
-      subtype: 
+      subtype:
         id: number
         leq: 1.0
         geq: 0.0
