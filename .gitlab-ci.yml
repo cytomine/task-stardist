@@ -1,0 +1,13 @@
+include:
+  - component: gitlab.cytom.in/cm/rnd/cicd/component-app-engine/validate-task-descriptor@1.0.0
+  - component: gitlab.cytom.in/cm/rnd/cicd/component-app-engine/build-publish-task@1.0.0
+
+stages:
+  - prepare
+  - test
+  - build
+  - publish
+
+default:
+  tags:
+    - docker
