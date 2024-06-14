@@ -1,0 +1,89 @@
+name: StarDist Nuclei Segmentation
+name_short: stardist
+version: 0.1.0
+namespace: com.cytomine.nuclei-segmentation.stardist
+$schema: https://cytomine.com/schema-store/tasks/task.v0.json
+
+external:
+  dois:
+    - https://doi.org/10.1007/978-3-030-00934-2_3
+  source_code: https://github.com/stardist/stardist
+  
+authors:
+  - first_name: Romain
+    last_name: Mormont
+    organization: Cytomine Corporation
+    email: info@cytomine.com
+    is_contact: true
+
+configuration:
+  input_folder: /inputs
+  output_folder: /outputs
+  image:
+    file: /image.tar
+
+inputs:
+  image:
+    display_name: Input image
+    type:
+      id: image
+      max_width: 4000
+      max_height: 4000
+    description: The input image in which nuclei should be segmented
+  stardist_prob_t:
+    display_name: StarDist probability threshold
+    description: Probability Threshold in range [0.0, 1.0] - higher values lead to fewer segmented objects, but will likely avoid false positives
+    optional: true
+    default: 0.5
+    type: 
+      id: number
+      leq: 1
+      geq: 0
+  stardist_nms_t:
+    display_name: StarDist non-maximum suppression threshold
+    description: Overlap Threshold in range [0.0, 1.0] - higher values allow segmented objects to overlap substantially.
+    optional: true
+    default: 0.5
+    type:
+      id: number
+      leq: 1
+      geq: 0
+  stardist_norm_perc_low:
+    display_name: StarDist lower normalization percentile
+    description: Percentile low in range [0.0 100.0]
+    optional: true
+    default: 1.0
+    type:
+      id: number
+      leq: 100
+      geq: 0
+  stardist_norm_perc_high:
+    display_name: StarDist higher normalization percentile
+    description: Percentile high in range [0.0 100.0]
+    optional: true
+    default: 99.0
+    type:
+      id: number
+      leq: 100
+      geq: 0
+
+outputs:
+  nuclei:
+    display_name: Nuclei geometries
+    description: The segmented nuclei encoded as geometries 
+    dependencies:
+      derived_from: inputs/image
+      matching: 
+        - outputs/probas
+    type: 
+      id: array
+      subtype: geometry
+
+  probas:
+    display_name: The probabilities associated with the predicted nuclei geometries
+    type:
+      id: array
+      subtype: 
+        id: number
+        leq: 1.0
+        geq: 0.0
