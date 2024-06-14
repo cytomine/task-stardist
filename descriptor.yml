@@ -30,6 +30,7 @@ inputs:
       max_width: 4000
       max_height: 4000
     description: The input image in which nuclei should be segmented
+
   stardist_prob_t:
     display_name: StarDist probability threshold
     description: Probability Threshold in range [0.0, 1.0] - higher values lead to fewer segmented objects, but will likely avoid false positives
@@ -39,6 +40,7 @@ inputs:
       id: number
       leq: 1
       geq: 0
+
   stardist_nms_t:
     display_name: StarDist non-maximum suppression threshold
     description: Overlap Threshold in range [0.0, 1.0] - higher values allow segmented objects to overlap substantially.
@@ -48,6 +50,7 @@ inputs:
       id: number
       leq: 1
       geq: 0
+
   stardist_norm_perc_low:
     display_name: StarDist lower normalization percentile
     description: Percentile low in range [0.0 100.0]
@@ -57,6 +60,7 @@ inputs:
       id: number
       leq: 100
       geq: 0
+
   stardist_norm_perc_high:
     display_name: StarDist higher normalization percentile
     description: Percentile high in range [0.0 100.0]
