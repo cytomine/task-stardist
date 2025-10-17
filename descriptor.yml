@@ -20,7 +20,7 @@ configuration:
   input_folder: /inputs
   output_folder: /outputs
   image:
-    file: /image.tar
+    file: /com.cytomine.nuclei-segmentation.stardist-0.1.0.tar
 
 inputs:
   images:
