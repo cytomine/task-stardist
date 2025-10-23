@@ -49,8 +49,12 @@ You can then explore the results in the `./local-outputs` directory.
 ## Build bundle to upload on Cytomine
 
 1. Build the docker image as described above
-2. Build the bundle
+2. save it as `tar` archive
+```bash
+docker save -o com.cytomine.nuclei.segmentation.stardist-0.1.0.tar com/cytomine/nuclei-segmentation/stardist:0.1.0 
+```
+3. Build the bundle
 ```bash
 zip com.cytomine.nuclei.segmentation.stardist-0.1.0.zip descriptor.yml com.cytomine.nuclei.segmentation.stardist-0.1.0.tar
 ```
-3. Upload the bundle on Cytomine
+4. Upload the bundle on Cytomine
