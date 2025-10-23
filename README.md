@@ -11,9 +11,9 @@
 Either from an existing task bundle
 
 ```bash
-$> unzip com.cytomine.nuclei-segmentation.stardist-0.1.0.zip
+$> unzip com.cytomine.nuclei.segmentation.stardist-0.1.0.zip
 Archive:  ./com.cytomine.nuclei-segmentation.stardist-0.1.0.zip
-  inflating: image.tar
+  inflating: com.cytomine.nuclei.segmentation.stardist-0.1.0.tar
   inflating: descriptor.yml
 $> docker image load --input image.tar
 0949773899cf: Loading layer [==================================================>]   84.2MB/84.2MB
@@ -45,3 +45,16 @@ docker run -v ./examples/inputs:/inputs -v ./local-outputs:/outputs --rm -it com
 ```
 
 You can then explore the results in the `./local-outputs` directory.
+
+## Build bundle to upload on Cytomine
+
+1. Build the docker image as described above
+2. save it as `tar` archive
+```bash
+docker save -o com.cytomine.nuclei.segmentation.stardist-0.1.0.tar com/cytomine/nuclei-segmentation/stardist:0.1.0 
+```
+3. Build the bundle
+```bash
+zip com.cytomine.nuclei.segmentation.stardist-0.1.0.zip descriptor.yml com.cytomine.nuclei.segmentation.stardist-0.1.0.tar
+```
+4. Upload the bundle on Cytomine
