@@ -2,7 +2,7 @@ name: StarDist Nuclei Segmentation
 name_short: stardist
 version: 0.1.0
 namespace: com.cytomine.nuclei.segmentation.stardist
-$schema: https://cytomine.com/schema-store/tasks/task.v0.json
+$schema: https://raw.githubusercontent.com/cytomine/cytomine/refs/heads/main/app-engine/src/main/resources/schemas/tasks/task.v0.json
 
 external:
   dois:
