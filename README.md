@@ -15,7 +15,7 @@ $> unzip com.cytomine.nuclei.segmentation.stardist-0.1.0.zip
 Archive:  ./com.cytomine.nuclei-segmentation.stardist-0.1.0.zip
   inflating: com.cytomine.nuclei.segmentation.stardist-0.1.0.tar
   inflating: descriptor.yml
-$> docker image load --input image.tar
+$> docker image load --input com.cytomine.nuclei.segmentation.stardist-0.1.0.tar
 0949773899cf: Loading layer [==================================================>]   84.2MB/84.2MB
 95c8f57bd29d: Loading layer [==================================================>]  3.405MB/3.405MB
 95ce64f868d0: Loading layer [==================================================>]  30.56MB/30.56MB
