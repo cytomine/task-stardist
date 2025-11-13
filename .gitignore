@@ -1,2 +1,9 @@
 .vscode/
 examples/
+
+# Local outputs
+local-outputs/
+
+# Archives
+*.tar
+*.zip

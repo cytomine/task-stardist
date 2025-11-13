@@ -1,6 +1,6 @@
 name: StarDist Nuclei Segmentation
 name_short: stardist
-version: 0.1.0
+version: 0.1.1
 namespace: com.cytomine.nuclei.segmentation.stardist
 $schema: https://raw.githubusercontent.com/cytomine/cytomine/refs/heads/main/app-engine/src/main/resources/schemas/tasks/task.v0.json
 
@@ -20,7 +20,7 @@ configuration:
   input_folder: /inputs
   output_folder: /outputs
   image:
-    file: /com.cytomine.nuclei.segmentation.stardist-0.1.0.tar
+    file: /com.cytomine.nuclei.segmentation.stardist-0.1.1.tar
 
 inputs:
   image:
@@ -29,7 +29,7 @@ inputs:
       id: image
       max_width: 4000
       max_height: 4000
-    description: The input images in which nuclei should be segmented
+    description: The input image in which nuclei should be segmented
 
   stardist_prob_t:
     display_name: StarDist probability threshold
