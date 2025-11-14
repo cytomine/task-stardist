@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-json-schema:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install -g ajv-cli ajv-formats ajv-formats-draft2019
+
+      - name: Get schema
+        run: curl -o task.v0.json 'https://raw.githubusercontent.com/cytomine/cytomine/main/app-engine/src/main/resources/schemas/tasks/task.v0.json'
+
+      - name: Validate descriptor against schema
+        run: >-
+          ajv validate
+          --spec=draft2019
+          --strict=false
+          -c ajv-formats
+          -c ajv-formats-draft2019
+          -s task.v0.json
+          -d descriptor.yml
