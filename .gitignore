@@ -7,3 +7,6 @@ local-outputs/
 # Archives
 *.tar
 *.zip
+
+# venv
+.venv
