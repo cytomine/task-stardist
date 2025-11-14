@@ -1,7 +1,0 @@
-csbdeep==0.8.0
-stardist==0.9.1
-numpy==1.26.4
-imageio==2.34.1
-geojson==3.1.0
-tensorflow-cpu==2.16.1
-pyyaml==6.0.1
