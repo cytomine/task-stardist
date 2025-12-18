@@ -6,7 +6,7 @@ $schema: https://raw.githubusercontent.com/cytomine/cytomine/refs/heads/main/app
 
 external:
   dois:
-    - https://doi.org/10.1007/978-3-030-00934-2_3
+    - https://doi.org/10.1007/978-3-030-00934-2_30
   source_code: https://github.com/stardist/stardist
 
 authors:
