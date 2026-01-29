@@ -1,5 +1,7 @@
 # Stardist Nuclei Segmentation
 
+This repository relies on the library https://github.com/stardist/stardist and packages the StarDist algorithm into a Cytomine Task compatible with the Cytomine App engine (ie. a docker container image reading image where to detect objects from an input directory and generating detected objects as geometries into an output directory). 
+
 ## How to run it manually ?
 
 ### Get the docker image
