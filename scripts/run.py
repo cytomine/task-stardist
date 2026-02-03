@@ -121,10 +121,14 @@ def main():
   stardist_nms_t = read_parameter(os.path.join(INPUT_DIR, "stardist_nms_t"), cast_fn=float, default=0.5)
   image_path = os.path.join(INPUT_DIR, "image")
 
-  with open(os.path.join(INPUT_DIR, "roi"), "r") as fp:
-    roi_content = fp.read().strip()
-    roi = geojson.loads(roi_content)
-  roi_polygon = Polygon(roi['coordinates'][0])
+  # Read ROI if it exists
+  roi_path = os.path.join(INPUT_DIR, "roi")
+  roi_polygon = None
+  if os.path.isfile(roi_path):
+    with open(roi_path, "r") as fp:
+      roi_content = fp.read().strip()
+      roi = geojson.loads(roi_content)
+      roi_polygon = Polygon(roi['coordinates'][0])
 
   # use local model file in ~/models/2D_versatile_HE/
   model = StarDist2D(None, name='2D_versatile_HE', basedir=MODEL_DATA_DIR)
@@ -148,14 +152,18 @@ def main():
     n_tiles=model._guess_n_tiles(img)
   )
 
-  # Filter nuclei inside the ROI
-  filtered_coords = []
-  filtered_probs = []
+  # Filter nuclei if ROI is provided
+  if roi_polygon is not None:
+    filtered_coords = []
+    filtered_probs = []
 
-  for i, nucleus_coords in enumerate(details['coord']):
-    if is_nucleus_inside_roi(nucleus_coords, roi_polygon, image_height):
-      filtered_coords.append(nucleus_coords)
-      filtered_probs.append(details['prob'][i])
+    for i, nucleus_coords in enumerate(details['coord']):
+      if is_nucleus_inside_roi(nucleus_coords, roi_polygon, image_height):
+        filtered_coords.append(nucleus_coords)
+        filtered_probs.append(details['prob'][i])
+  else:
+    filtered_coords = list(details['coord'])
+    filtered_probs = details['prob'].tolist()
 
   # writing outputs
   write_array(
