@@ -31,12 +31,6 @@ inputs:
       max_height: 4000
     description: The input image in which nuclei should be segmented
 
-  roi:
-    display_name: Input ROI
-    description: The ROI in the image in which the nuclei should be segmented
-    type: geometry
-    optional: true
-
   stardist_prob_t:
     display_name: Probability threshold
     description: Probability Threshold in range [0.0, 1.0] - higher values lead to fewer segmented objects, but will likely avoid false positives

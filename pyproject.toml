@@ -10,7 +10,6 @@ dependencies = [
   "imageio==2.34.1",
   "numpy==1.26.4",
   "pyyaml==6.0.1",
-  "shapely==2.1.2",
   "stardist==0.9.1",
   "tensorflow-cpu==2.16.1",
 ]
