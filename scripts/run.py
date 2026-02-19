@@ -95,6 +95,7 @@ def main():
   stardist_prob_t = read_parameter(os.path.join(INPUT_DIR, "stardist_prob_t"), cast_fn=float, default=0.5)
   stardist_nms_t = read_parameter(os.path.join(INPUT_DIR, "stardist_nms_t"), cast_fn=float, default=0.5)
   image_path = os.path.join(INPUT_DIR, "image")
+  polygon_coordinates = os.path.join(INPUT_DIR, "image.geojson")
 
   # use local model file in ~/models/2D_versatile_HE/
   model = StarDist2D(None, name='2D_versatile_HE', basedir=MODEL_DATA_DIR)

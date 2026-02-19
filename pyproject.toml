@@ -3,13 +3,14 @@ name = "task-stardist"
 version = "0.3.0"
 description = "Integration of Stardist algorithm as a Cytomine task"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.12"
 dependencies = [
   "csbdeep==0.8.0",
   "geojson==3.1.0",
   "imageio==2.34.1",
   "numpy==1.26.4",
   "pyyaml==6.0.1",
+  "shapely==2.1.2",
   "stardist==0.9.1",
   "tensorflow-cpu==2.16.1",
 ]
