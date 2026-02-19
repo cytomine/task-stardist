@@ -151,14 +151,18 @@ def main():
     n_tiles=model._guess_n_tiles(img)
   )
 
-  # Filter nuclei
-  filtered_coords = []
-  filtered_probs = []
+  # Filter nuclei if ROI is provided
+  if roi_polygon is not None:
+    filtered_coords = []
+    filtered_probs = []
 
-  for i, nucleus_coords in enumerate(details['coord']):
-    if is_nucleus_inside_roi(nucleus_coords, roi_polygon, image_height):
-      filtered_coords.append(nucleus_coords)
-      filtered_probs.append(details['prob'][i])
+    for i, nucleus_coords in enumerate(details['coord']):
+      if is_nucleus_inside_roi(nucleus_coords, roi_polygon, image_height):
+        filtered_coords.append(nucleus_coords)
+        filtered_probs.append(details['prob'][i])
+  else:
+    filtered_coords = list(details['coord'])
+    filtered_probs = details['prob'].tolist()
 
   # writing outputs
   write_array(
