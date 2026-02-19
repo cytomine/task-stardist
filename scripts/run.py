@@ -156,23 +156,23 @@ def main():
     filtered_coords = []
     filtered_probs = []
 
-    for i, nucleus_coords in enumerate(details['coord']):
+    for i, nucleus_coords in enumerate(details["coord"]):
       if is_nucleus_inside_roi(nucleus_coords, roi_polygon, image_height):
         filtered_coords.append(nucleus_coords)
-        filtered_probs.append(details['prob'][i])
+        filtered_probs.append(details["prob"][i])
   else:
-    filtered_coords = list(details['coord'])
-    filtered_probs = details['prob'].tolist()
+    filtered_coords = list(details["coord"])
+    filtered_probs = details["prob"].tolist()
 
   # writing outputs
   write_array(
       array_path=os.path.join(OUTPUT_DIR, "nuclei"),
-      array_data=details["coord"],
+      array_data=filtered_coords,
       format_fn=lambda poly: from_stardist_to_geojson_string(poly, image_height),
   )
   write_array(
       array_path=os.path.join(OUTPUT_DIR, "probs"),
-      array_data=details["prob"].tolist(),
+      array_data=filtered_probs,
       format_fn=str,
   )
 
