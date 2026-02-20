@@ -15,28 +15,26 @@ OUTPUT_DIR = "/outputs"
 MODEL_DATA_DIR = "/models/"
 
 
-def is_nucleus_inside_roi(nucleus_coords: np.ndarray, roi_polygon: Polygon, image_height: int) -> bool:
+def is_nucleus_inside_roi(
+  nucleus_coords: np.ndarray,
+  roi_polygon: Polygon,
+  image_height: int
+) -> bool:
   """
-  Check if a nucleus is inside the ROI polygon.
+  Check if a nucleus centroid is inside the ROI polygon.
 
   Args:
-    nucleus_coords (np.ndarray): The nucleus coordinates in stardist format (2, N) where first row is x, second is y.
-    roi_polygon (Polygon): The ROI polygon from shapely.
-    image_height (int): The image height for coordinate transformation.
+    nucleus_coords: StarDist format (2, N) where row 0 is y, row 1 is x.
+    roi_polygon: ROI polygon in (x, flipped-y) coordinate space.
+    image_height: Used to flip Y into the ROI coordinate system.
 
   Returns:
-    bool: True if the nucleus centroid is inside the ROI, False otherwise.
+    True if the nucleus centroid is inside the ROI, False otherwise.
   """
 
-  # Reverse (y,x) → (x,y) and flip Y coordinates to match ROI coordinate system
-  x_coords = nucleus_coords[0]
-  y_coords = image_height - nucleus_coords[1]
+  centroid_x = np.mean(nucleus_coords[1])
+  centroid_y = image_height - np.mean(nucleus_coords[0])
 
-  # Calculate centroid
-  centroid_x = np.mean(x_coords)
-  centroid_y = np.mean(y_coords)
-
-  # Check if centroid is inside ROI
   return roi_polygon.contains(Point(centroid_x, centroid_y))
 
 
