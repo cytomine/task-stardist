@@ -117,7 +117,7 @@ def main():
   stardist_norm_perc_high = read_parameter(os.path.join(INPUT_DIR, "stardist_norm_perc_high"), cast_fn=float, default=99.0)
   stardist_prob_t = read_parameter(os.path.join(INPUT_DIR, "stardist_prob_t"), cast_fn=float, default=0.5)
   stardist_nms_t = read_parameter(os.path.join(INPUT_DIR, "stardist_nms_t"), cast_fn=float, default=0.5)
-  image_path = os.path.join(INPUT_DIR, "image")
+  image_dir = os.path.join(INPUT_DIR, "images")
 
   roi_path = os.path.join(INPUT_DIR, "image.geojson")
   roi_polygon = None
@@ -130,49 +130,53 @@ def main():
   # use local model file in ~/models/2D_versatile_HE/
   model = StarDist2D(None, name='2D_versatile_HE', basedir=MODEL_DATA_DIR)
 
-  # processing image
-  image_raw = imread(image_path)
-  image_height = image_raw.shape[0]
+  files = os.listdir(image_dir)
+  files.remove("array.yaml")
 
-  img = normalize(
-    image_raw,
-    stardist_norm_perc_low,
-    stardist_norm_perc_high,
-    axis=(0, 1)  # normalize channels independently
-  )
+  for index, filename in enumerate(files):
+    # processing image
+    image_raw = imread(os.path.join(INPUT_DIR, "images", filename))
+    image_height = image_raw.shape[0]
 
-  # Stardist model prediction with thresholds
-  _, details = model.predict_instances(
-    img,
-    prob_thresh=stardist_prob_t,
-    nms_thresh=stardist_nms_t,
-    n_tiles=model._guess_n_tiles(img)
-  )
+    img = normalize(
+      image_raw,
+      stardist_norm_perc_low,
+      stardist_norm_perc_high,
+      axis=(0, 1)  # normalize channels independently
+    )
 
-  # Filter nuclei if ROI is provided
-  if roi_polygon is not None:
-    filtered_coords = []
-    filtered_probs = []
+    # Stardist model prediction with thresholds
+    _, details = model.predict_instances(
+      img,
+      prob_thresh=stardist_prob_t,
+      nms_thresh=stardist_nms_t,
+      n_tiles=model._guess_n_tiles(img)
+    )
 
-    for i, nucleus_coords in enumerate(details["coord"]):
-      if is_nucleus_inside_roi(nucleus_coords, roi_polygon, image_height):
-        filtered_coords.append(nucleus_coords)
-        filtered_probs.append(details["prob"][i])
-  else:
-    filtered_coords = list(details["coord"])
-    filtered_probs = details["prob"].tolist()
+    # Filter nuclei if ROI is provided
+    if roi_polygon is not None:
+      filtered_coords = []
+      filtered_probs = []
 
-  # writing outputs
-  write_array(
-      array_path=os.path.join(OUTPUT_DIR, "nuclei"),
-      array_data=filtered_coords,
-      format_fn=lambda poly: from_stardist_to_geojson_string(poly, image_height),
-  )
-  write_array(
-      array_path=os.path.join(OUTPUT_DIR, "probs"),
-      array_data=filtered_probs,
-      format_fn=str,
-  )
+      for i, nucleus_coords in enumerate(details["coord"]):
+        if is_nucleus_inside_roi(nucleus_coords, roi_polygon, image_height):
+          filtered_coords.append(nucleus_coords)
+          filtered_probs.append(details["prob"][i])
+    else:
+      filtered_coords = list(details["coord"])
+      filtered_probs = details["prob"].tolist()
+
+    # writing outputs
+    write_array(
+        array_path=os.path.join(OUTPUT_DIR, "nuclei", str(index)),
+        array_data=filtered_coords,
+        format_fn=lambda poly: from_stardist_to_geojson_string(poly, image_height),
+    )
+    write_array(
+        array_path=os.path.join(OUTPUT_DIR, "probs", str(index)),
+        array_data=filtered_probs,
+        format_fn=str,
+    )
 
 if __name__ == "__main__":
   main()
