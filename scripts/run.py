@@ -6,6 +6,7 @@ import numpy as np
 import yaml
 from csbdeep.utils import normalize
 from imageio import imread
+from shapely import Point, Polygon
 from stardist.models import StarDist2D
 
 
@@ -13,6 +14,28 @@ INPUT_DIR = "/inputs"
 OUTPUT_DIR = "/outputs"
 MODEL_DATA_DIR = "/models/"
 
+
+def is_nucleus_inside_roi(
+  nucleus_coords: np.ndarray,
+  roi_polygon: Polygon,
+  image_height: int
+) -> bool:
+  """
+  Check if a nucleus centroid is inside the ROI polygon.
+
+  Args:
+    nucleus_coords: StarDist format (2, N) where row 0 is y, row 1 is x.
+    roi_polygon: ROI polygon in (x, flipped-y) coordinate space.
+    image_height: Used to flip Y into the ROI coordinate system.
+
+  Returns:
+    True if the nucleus centroid is inside the ROI, False otherwise.
+  """
+
+  centroid_x = np.mean(nucleus_coords[1])
+  centroid_y = image_height - np.mean(nucleus_coords[0])
+
+  return roi_polygon.contains(Point(centroid_x, centroid_y))
 
 
 def from_stardist_to_geojson_string(stardist_polygroup: np.ndarray, image_height: int):
@@ -89,12 +112,20 @@ def write_array(array_path: str, array_data: Iterable[Any], format_fn: Callable[
 
 
 def main():
-  # Red inputs
+  # Read inputs
   stardist_norm_perc_low = read_parameter(os.path.join(INPUT_DIR, "stardist_norm_perc_low"), cast_fn=float, default=1.0)
   stardist_norm_perc_high = read_parameter(os.path.join(INPUT_DIR, "stardist_norm_perc_high"), cast_fn=float, default=99.0)
   stardist_prob_t = read_parameter(os.path.join(INPUT_DIR, "stardist_prob_t"), cast_fn=float, default=0.5)
   stardist_nms_t = read_parameter(os.path.join(INPUT_DIR, "stardist_nms_t"), cast_fn=float, default=0.5)
   image_path = os.path.join(INPUT_DIR, "image")
+
+  roi_path = os.path.join(INPUT_DIR, "image.geojson")
+  roi_polygon = None
+  if os.path.isfile(roi_path):
+    with open(roi_path, "r") as fp:
+      roi_content = fp.read().strip()
+      roi = geojson.loads(roi_content)
+      roi_polygon = Polygon(roi['coordinates'][0])
 
   # use local model file in ~/models/2D_versatile_HE/
   model = StarDist2D(None, name='2D_versatile_HE', basedir=MODEL_DATA_DIR)
@@ -110,7 +141,6 @@ def main():
     axis=(0, 1)  # normalize channels independently
   )
 
-
   # Stardist model prediction with thresholds
   _, details = model.predict_instances(
     img,
@@ -119,14 +149,30 @@ def main():
     n_tiles=model._guess_n_tiles(img)
   )
 
-  # writing ouputs
-  write_array(
-    array_path=os.path.join(OUTPUT_DIR, "nuclei"),
-    array_data=details['coord'],
-    format_fn=lambda poly: from_stardist_to_geojson_string(poly, image_height)
-  )
-  write_array(array_path=os.path.join(OUTPUT_DIR, "probs"), array_data=details['prob'].tolist(), format_fn=str)
+  # Filter nuclei if ROI is provided
+  if roi_polygon is not None:
+    filtered_coords = []
+    filtered_probs = []
 
+    for i, nucleus_coords in enumerate(details["coord"]):
+      if is_nucleus_inside_roi(nucleus_coords, roi_polygon, image_height):
+        filtered_coords.append(nucleus_coords)
+        filtered_probs.append(details["prob"][i])
+  else:
+    filtered_coords = list(details["coord"])
+    filtered_probs = details["prob"].tolist()
+
+  # writing outputs
+  write_array(
+      array_path=os.path.join(OUTPUT_DIR, "nuclei"),
+      array_data=filtered_coords,
+      format_fn=lambda poly: from_stardist_to_geojson_string(poly, image_height),
+  )
+  write_array(
+      array_path=os.path.join(OUTPUT_DIR, "probs"),
+      array_data=filtered_probs,
+      format_fn=str,
+  )
 
 if __name__ == "__main__":
   main()
