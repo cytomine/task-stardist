@@ -14,6 +14,10 @@ authors:
     last_name: Mormont
     organization: Cytomine Corporation
     email: info@cytomine.com
+  - first_name: Cytomine
+    last_name: ULiège
+    organization: Cytomine ULiège
+    email: uliege@cytomine.org
     is_contact: true
 
 configuration:
