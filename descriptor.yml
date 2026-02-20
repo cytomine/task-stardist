@@ -27,13 +27,18 @@ configuration:
     file: /com.cytomine.nuclei.segmentation.stardist-0.4.0.tar
 
 inputs:
-  image:
-    display_name: Input image
+  images:
+    display_name: Input images
+    description: The input images in which nuclei should be segmented
     type:
-      id: image
-      max_width: 4000
-      max_height: 4000
-    description: The input image in which nuclei should be segmented
+      id: array
+      subtype:
+        id: image
+        max_width: 4000
+        max_height: 4000
+    dependencies:
+      matching:
+        - outputs/nuclei
 
   stardist_prob_t:
     display_name: Probability threshold
@@ -81,15 +86,23 @@ outputs:
     description: The segmented nuclei encoded as geometries
     type:
       id: array
-      subtype: 
-        id: geometry
+      subtype:
+        id: array
+        subtype:
+          id: geometry
+    dependencies:
+      derived_from: inputs/images
+      matching:
+        - outputs/probs
 
   probs:
     display_name: Detected nuclei probabilities
     description: The probabilities associated with the predicted nuclei geometries
     type:
       id: array
-      subtype: 
-        id: number
-        leq: 1.0
-        geq: 0.0
+      subtype:
+        id: array
+        subtype:
+          id: number
+          leq: 1.0
+          geq: 0.0
