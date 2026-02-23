@@ -204,6 +204,11 @@ def main() -> None:
             format_fn=str,
         )
 
+    for name in ["nuclei", "probs"]:
+        filepath = os.path.join(OUTPUT_DIR, name, "array.yml")
+        with open(filepath, "w", encoding="utf8") as file:
+            yaml.dump({"size": len(files)}, file)
+
 
 if __name__ == "__main__":
     main()
