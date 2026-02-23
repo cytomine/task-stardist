@@ -124,16 +124,24 @@ def write_array(
 def main() -> None:
     # Read inputs
     stardist_norm_perc_low = read_parameter(
-        os.path.join(INPUT_DIR, "stardist_norm_perc_low"), cast_fn=float, default=1.0
+        os.path.join(INPUT_DIR, "stardist_norm_perc_low"),
+        cast_fn=float,
+        default=1.0,
     )
     stardist_norm_perc_high = read_parameter(
-        os.path.join(INPUT_DIR, "stardist_norm_perc_high"), cast_fn=float, default=99.0
+        os.path.join(INPUT_DIR, "stardist_norm_perc_high"),
+        cast_fn=float,
+        default=99.0,
     )
     stardist_prob_t = read_parameter(
-        os.path.join(INPUT_DIR, "stardist_prob_t"), cast_fn=float, default=0.5
+        os.path.join(INPUT_DIR, "stardist_prob_t"),
+        cast_fn=float,
+        default=0.5,
     )
     stardist_nms_t = read_parameter(
-        os.path.join(INPUT_DIR, "stardist_nms_t"), cast_fn=float, default=0.5
+        os.path.join(INPUT_DIR, "stardist_nms_t"),
+        cast_fn=float,
+        default=0.5,
     )
     image_dir = os.path.join(INPUT_DIR, "images")
 
