@@ -143,7 +143,6 @@ def main() -> None:
         cast_fn=float,
         default=0.5,
     )
-    image_dir = os.path.join(INPUT_DIR, "images")
 
     roi_path = os.path.join(INPUT_DIR, "image.geojson")
     roi_polygon = None
@@ -156,10 +155,16 @@ def main() -> None:
     # use local model file in ~/models/2D_versatile_HE/
     model = StarDist2D(None, name="2D_versatile_HE", basedir=MODEL_DATA_DIR)
 
-    files = os.listdir(image_dir)
-    files = [f for f in files if f not in ("array.yml", "array.yaml")]
+    # Get the number of images
+    config_path = os.path.join(INPUT_DIR, "images", "array.yml")
+    with open(config_path, "r") as f:
+        array_config = yaml.safe_load(f)
 
-    for index, filename in enumerate(files):
+    size = array_config.get("size")
+
+    for index in range(size):
+        filename = str(index)
+
         # processing image
         image_raw = imread(os.path.join(INPUT_DIR, "images", filename))
         image_height = image_raw.shape[0]
@@ -194,12 +199,12 @@ def main() -> None:
 
         # writing outputs
         write_array(
-            array_path=os.path.join(OUTPUT_DIR, "nuclei", str(index)),
+            array_path=os.path.join(OUTPUT_DIR, "nuclei", filename),
             array_data=filtered_coords,
             format_fn=lambda poly: from_stardist_to_geojson_string(poly, image_height),
         )
         write_array(
-            array_path=os.path.join(OUTPUT_DIR, "probs", str(index)),
+            array_path=os.path.join(OUTPUT_DIR, "probs", filename),
             array_data=filtered_probs,
             format_fn=str,
         )
@@ -207,7 +212,7 @@ def main() -> None:
     for name in ["nuclei", "probs"]:
         filepath = os.path.join(OUTPUT_DIR, name, "array.yml")
         with open(filepath, "w", encoding="utf8") as file:
-            yaml.dump({"size": len(files)}, file)
+            yaml.dump({"size": size}, file)
 
 
 if __name__ == "__main__":
