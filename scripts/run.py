@@ -144,14 +144,6 @@ def main() -> None:
         default=0.5,
     )
 
-    roi_path = os.path.join(INPUT_DIR, "image.geojson")
-    roi_polygon = None
-    if os.path.isfile(roi_path):
-        with open(roi_path, "r") as fp:
-            roi_content = fp.read().strip()
-            roi = geojson.loads(roi_content)
-            roi_polygon = Polygon(roi["coordinates"][0])
-
     # use local model file in ~/models/2D_versatile_HE/
     model = StarDist2D(None, name="2D_versatile_HE", basedir=MODEL_DATA_DIR)
 
@@ -183,6 +175,14 @@ def main() -> None:
             nms_thresh=stardist_nms_t,
             n_tiles=model._guess_n_tiles(img),
         )
+
+        roi_path = os.path.join(INPUT_DIR, "images", f"{filename}.geojson")
+        roi_polygon = None
+        if os.path.isfile(roi_path):
+            with open(roi_path, "r") as fp:
+                roi_content = fp.read().strip()
+                roi = geojson.loads(roi_content)
+                roi_polygon = Polygon(roi["coordinates"][0])
 
         # Filter nuclei if ROI is provided
         if roi_polygon is not None:
