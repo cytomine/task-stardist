@@ -157,7 +157,7 @@ def main() -> None:
     model = StarDist2D(None, name="2D_versatile_HE", basedir=MODEL_DATA_DIR)
 
     files = os.listdir(image_dir)
-    files.remove("array.yaml")
+    files = [f for f in files if f not in ("array.yml", "array.yaml")]
 
     for index, filename in enumerate(files):
         # processing image
