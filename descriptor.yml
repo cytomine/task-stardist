@@ -36,9 +36,6 @@ inputs:
         id: image
         max_width: 4000
         max_height: 4000
-    dependencies:
-      matching:
-        - outputs/nuclei
 
   stardist_prob_t:
     display_name: Probability threshold
