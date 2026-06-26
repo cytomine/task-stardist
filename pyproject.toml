@@ -12,7 +12,7 @@ dependencies = [
   "pyyaml==6.0.1",
   "shapely==2.1.2",
   "stardist==0.9.1",
-  "tensorflow==2.16.2",
+  "tensorflow[and-cuda]==2.16.2",
 ]
 
 [dependency-groups]
