@@ -8,12 +8,6 @@ ENV PATH="/app/.venv/bin:$PATH" \
     UV_COMPILE_BYTECODE=1 \
     UV_LINK_MODE=copy
 
-RUN apt update && apt install -y \
-    python3.11 \
-    python3.11-dev \
-    python3-pip \
-    && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 
 RUN --mount=type=cache,target=/root/.cache/uv \
