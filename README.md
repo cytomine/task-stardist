@@ -1,18 +1,18 @@
 # Stardist Nuclei Segmentation
 
-This repository relies on the library https://github.com/stardist/stardist and packages the StarDist algorithm into a Cytomine Task compatible with the Cytomine App engine (ie. a docker container image reading image where to detect objects from an input directory and generating detected objects as geometries into an output directory). 
+This repository packages the [StarDist](https://github.com/stardist/stardist) algorithm into a Cytomine Task compatible with the Cytomine App Engine. It detects and segments cell nuclei in H&E stained histology images using the pre-trained `2D_versatile_HE` model, producing nucleus outlines as GeoJSON polygons along with a per-nucleus detection probability score for each input image.
 
 ## GPU Support
 
 GPU acceleration is supported but limited to NVIDIA GPUs only (via CUDA). AMD and other GPU vendors are not supported.
 
-## How to run it manually ?
+## ROI Support
 
-### Get the docker image
+Each input image may optionally be paired with a GeoJSON file defining a region of interest (ROI). When provided, only nuclei whose centroid falls inside that region are included in the output. To use it, place a file named `<index>.geojson` alongside the image file in the `images/` input array directory (e.g. `images/0.geojson` for the first image).
 
-#### From the task bundle
+## How to run it manually
 
-Either from an existing task bundle
+### Get the docker image from a task bundle
 
 ```bash
 $> unzip com.cytomine.nuclei.segmentation.stardist-1.0.0.zip
@@ -35,13 +35,13 @@ Loaded image: com/cytomine/nuclei-segmentation/stardist:1.0.0
 
 ### Build the docker image yourself
 
-```
+```bash
 docker build -t com/cytomine/nuclei-segmentation/stardist:1.0.0 .
 ```
 
 ## Run on data
 
-From this repository, run :
+From this repository, run:
 
 ```bash
 docker run -v ./examples/inputs:/inputs -v ./local-outputs:/outputs --rm -it com/cytomine/nuclei-segmentation/stardist:1.0.0
@@ -52,11 +52,11 @@ You can then explore the results in the `./local-outputs` directory.
 ## Build bundle to upload on Cytomine
 
 1. Build the docker image as described above
-2. save it as `tar` archive
+2. Save it as a `tar` archive:
 ```bash
 docker save -o com.cytomine.nuclei.segmentation.stardist-1.0.0.tar com/cytomine/nuclei-segmentation/stardist:1.0.0
 ```
-3. Build the bundle
+3. Build the bundle:
 ```bash
 zip com.cytomine.nuclei.segmentation.stardist-1.0.0.zip descriptor.yml com.cytomine.nuclei.segmentation.stardist-1.0.0.tar
 ```
