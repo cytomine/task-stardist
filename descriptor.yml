@@ -1,6 +1,6 @@
 name: StarDist Nuclei Segmentation
 name_short: stardist
-version: 1.0.0
+version: 1.1.0
 namespace: com.cytomine.nuclei.segmentation.stardist
 $schema: https://raw.githubusercontent.com/cytomine/cytomine/refs/heads/main/app-engine/src/main/resources/schemas/tasks/task.v0.json
 
@@ -24,7 +24,7 @@ configuration:
   input_folder: /inputs
   output_folder: /outputs
   image:
-    file: /com.cytomine.nuclei.segmentation.stardist-1.0.0.tar
+    file: /com.cytomine.nuclei.segmentation.stardist-1.1.0.tar
 
 inputs:
   images:
