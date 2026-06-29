@@ -5,14 +5,14 @@ description = "Integration of Stardist algorithm as a Cytomine task"
 readme = "README.md"
 requires-python = ">=3.11,<3.12"
 dependencies = [
-  "csbdeep==0.8.0",
+  "csbdeep==0.8.2",
   "geojson==3.1.0",
   "imageio==2.34.1",
   "numpy==1.26.4",
   "pyyaml==6.0.1",
   "setuptools==74.0.0",
   "shapely==2.1.2",
-  "stardist==0.9.1",
+  "stardist==0.9.2",
   "tensorflow[and-cuda]==2.16.2",
 ]
 

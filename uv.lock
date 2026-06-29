@@ -1,6 +1,10 @@
 version = 1
 revision = 3
 requires-python = "==3.11.*"
+resolution-markers = [
+    "platform_machine != 'arm64' and sys_platform == 'darwin'",
+    "platform_machine == 'arm64' or sys_platform != 'darwin'",
+]
 
 [[package]]
 name = "absl-py"
@@ -96,7 +100,7 @@ wheels = [
 
 [[package]]
 name = "csbdeep"
-version = "0.8.0"
+version = "0.8.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "matplotlib" },
@@ -107,9 +111,9 @@ dependencies = [
     { name = "tifffile" },
     { name = "tqdm" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f7/90/d123dc8fd8135167e75e396ceda9758eb2d8badd935ba678c28fd53573df/csbdeep-0.8.0.tar.gz", hash = "sha256:48058d5a087440c20a803988db91e93efe8c90943b62e5995443fafa1656a1c8", size = 58250, upload-time = "2024-04-22T13:38:28.634Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/fb/2b/6a4364c2b6a6136e6f2d5668b573fed4d43c2e2be73260621f1551834850/csbdeep-0.8.2.tar.gz", hash = "sha256:de0188d39d5eaeafe02d34c50fc1cd67d922b920628726fbdccdf3ff478f5e86", size = 58650, upload-time = "2025-12-06T22:23:55.447Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/fa/ae/16c5541707c15bfb3ec438dd738846f274899312094b323677e9f47fa3f5/csbdeep-0.8.0-py2.py3-none-any.whl", hash = "sha256:366cfd039cc440331095f68786563afb54ecb1f35c6e0b629d045507a213f265", size = 71347, upload-time = "2024-04-22T13:38:26.885Z" },
+    { url = "https://files.pythonhosted.org/packages/b8/2a/d5a3434d86fb13522ee39fe1c4a68c11d5c5e2b93d762000557e139f7be9/csbdeep-0.8.2-py2.py3-none-any.whl", hash = "sha256:5806b4ac2949c6a5737a789cf8897d7632cc9b6d0a323a12028ef165b99e5485", size = 71624, upload-time = "2025-12-06T22:23:53.967Z" },
 ]
 
 [[package]]
@@ -865,20 +869,22 @@ wheels = [
 
 [[package]]
 name = "stardist"
-version = "0.9.1"
+version = "0.9.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "csbdeep" },
     { name = "imageio" },
+    { name = "llvmlite", marker = "platform_machine != 'arm64' and sys_platform == 'darwin'" },
     { name = "numba" },
+    { name = "numpy" },
     { name = "scikit-image" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1f/99/f1d73061a663bfa66d92fcf6d4d696cc1a64a5d23be8f8667aecbe2490fe/stardist-0.9.1.tar.gz", hash = "sha256:fc96e8da35b49ac1e8990e2c15fecf129e5161fae9dfe17cb7b85a026163fbd5", size = 888249, upload-time = "2024-04-25T21:59:56.967Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/0e/90/a45dcbf00d98b25b81864486a43c125ed8146750c0420746a2b90c056fca/stardist-0.9.2.tar.gz", hash = "sha256:65120fe0a092608f3d76fc664c67cdf147d02ac4a101937fb806a60a7bcb055a", size = 890804, upload-time = "2025-12-15T22:29:59.178Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/89/69/e486bf5b662c88e027936a96538d3657cff41353e7718b4bb4db404aeb36/stardist-0.9.1-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:da0f5a4be2140ff974b1dc9d51e57431cfe258800dca28cdcf28bb78c1163e59", size = 1167235, upload-time = "2024-04-25T21:59:19.586Z" },
-    { url = "https://files.pythonhosted.org/packages/9e/3f/40719f6cda755785954ff7ab99b4235284f2cd4ebb648c0236175cfac39b/stardist-0.9.1-cp311-cp311-macosx_12_0_arm64.whl", hash = "sha256:dbff43119ef3e73f665bac08a37bd75715642cf3b8addc24bc8a0efeccc0b85a", size = 1086233, upload-time = "2024-04-25T21:59:21.452Z" },
-    { url = "https://files.pythonhosted.org/packages/9c/7b/19cdd1829523426dd45f4624d6e836834c0c8b91510df2c10520814ac918/stardist-0.9.1-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:1f2caf3a071c1ead1b0cbbf9614ff2c82967be1bd22764f097871fb9bbd2718f", size = 3051625, upload-time = "2024-04-25T21:59:23.386Z" },
-    { url = "https://files.pythonhosted.org/packages/92/6c/83f4a3ae69fc7eb6f145e86c02500f47cc429f9cc845ce570e33a2dbc4cb/stardist-0.9.1-cp311-cp311-win_amd64.whl", hash = "sha256:6cdd0e9902489724b3b00082ff4c05775cb4b82feb971814b9ca141eee162d8a", size = 786064, upload-time = "2024-04-25T21:59:25.435Z" },
+    { url = "https://files.pythonhosted.org/packages/cc/fc/f84f7cefdf0c1e0b962c7732487c5c0d9b52239b993411a3b202d4f0169c/stardist-0.9.2-cp311-cp311-macosx_10_9_x86_64.whl", hash = "sha256:01fe28834e5390d8afc59aa47b3ec35c102878717683312fb5904dea63651061", size = 1218546, upload-time = "2025-12-15T22:29:24.696Z" },
+    { url = "https://files.pythonhosted.org/packages/c8/60/873798a791261853350b2a8fd306f92e994d346cbc2ae36872265476f0eb/stardist-0.9.2-cp311-cp311-macosx_12_0_arm64.whl", hash = "sha256:7a3d1db639754517e3445ea9bbb6e3dd6b7c9b6bf4a6f4f03ca524b9ef750979", size = 1213933, upload-time = "2025-12-15T22:29:26.108Z" },
+    { url = "https://files.pythonhosted.org/packages/4a/41/1552e918b9c79d46f878f65fb7fd1594ade491cfa7782c2732ccd4a70209/stardist-0.9.2-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl", hash = "sha256:2316c0feb7bd5621e7a277cb3868df475c338943c591925c420ee3622c42f023", size = 3071290, upload-time = "2025-12-15T22:29:27.912Z" },
+    { url = "https://files.pythonhosted.org/packages/5f/f4/5bad774cf3094759d90e38bc57d51f4fd16dcf9abbd78fad353b20e765ed/stardist-0.9.2-cp311-cp311-win_amd64.whl", hash = "sha256:55bdebeed30f91a61ea7803db7fe8e22dbb3d003703efaa2be71ba764334bbd0", size = 790241, upload-time = "2025-12-15T22:29:29.47Z" },
 ]
 
 [[package]]
@@ -904,14 +910,14 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "csbdeep", specifier = "==0.8.0" },
+    { name = "csbdeep", specifier = "==0.8.2" },
     { name = "geojson", specifier = "==3.1.0" },
     { name = "imageio", specifier = "==2.34.1" },
     { name = "numpy", specifier = "==1.26.4" },
     { name = "pyyaml", specifier = "==6.0.1" },
     { name = "setuptools", specifier = "==74.0.0" },
     { name = "shapely", specifier = "==2.1.2" },
-    { name = "stardist", specifier = "==0.9.1" },
+    { name = "stardist", specifier = "==0.9.2" },
     { name = "tensorflow", extras = ["and-cuda"], specifier = "==2.16.2" },
 ]
 
