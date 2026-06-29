@@ -1,6 +1,6 @@
 FROM python:3.11.14-slim-bookworm
 
-COPY --from=ghcr.io/astral-sh/uv:0.10.9 /uv /uvx /bin/
+COPY --from=ghcr.io/astral-sh/uv:0.11.25 /uv /uvx /bin/
 
 ENV PATH="/app/.venv/bin:$PATH" \
     PYTHONPATH=/app \
